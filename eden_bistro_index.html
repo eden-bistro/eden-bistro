@@ -1,0 +1,276 @@
+<!--
+Eden Bistro - Single-file Website
+Save this file as: index.html
+
+How to customize (quick):
+ - Replace the restaurant name, address, phone in the <header> and <footer>
+ - Replace menu items inside the `menuItems` array in the <script> section
+ - Replace image URLs with your own photos (recommended size ~1200x800)
+ - If you have a logo, replace the text "Eden Bistro" in the header with an <img>
+
+This single file is ready to preview locally (double-click/open in browser) and to deploy to any static host (GitHub Pages, Netlify, Vercel).
+-->
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Eden Bistro — Menu & Gallery</title>
+  <meta name="description" content="Eden Bistro — Delicious local & international dishes. View our full menu, gallery, opening hours and contact info." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --accent:#b7410e; /* warm bistro color */
+      --muted:#6b7280;
+      --card-bg:#fff;
+      --page-bg:#fbfaf8;
+      --radius:14px;
+      --max-width:1100px;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--page-bg);color:#111}
+    .container{max-width:var(--max-width);margin:0 auto;padding:24px}
+
+    header{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{font-weight:700;color:var(--accent);font-size:20px}
+    nav{display:flex;gap:12px}
+    nav a{color:var(--muted);text-decoration:none;font-weight:600}
+
+    .hero{background:linear-gradient(180deg, rgba(183,65,14,0.08), rgba(183,65,14,0.02));border-radius:var(--radius);padding:28px;display:flex;gap:20px;align-items:center}
+    .hero .left{flex:1}
+    .hero h1{margin:0 0 8px;font-size:28px}
+    .hero p{margin:0 0 12px;color:var(--muted)}
+    .btn{background:var(--accent);color:white;border:none;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer}
+
+    .filters{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}
+    .filters button{background:#fff;border:1px solid #eee;padding:8px 12px;border-radius:10px;cursor:pointer}
+    .filters button.active{border-color:var(--accent);color:var(--accent)}
+
+    .menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card{background:var(--card-bg);border-radius:12px;overflow:hidden;box-shadow:0 6px 20px rgba(16,24,40,0.06);display:flex;flex-direction:column}
+    .card img{width:100%;height:180px;object-fit:cover}
+    .card .body{padding:12px;flex:1;display:flex;flex-direction:column}
+    .card h3{margin:0 0 6px;font-size:18px}
+    .card p{margin:0 0 8px;color:var(--muted);font-size:14px;flex:1}
+    .price-row{display:flex;align-items:center;justify-content:space-between}
+    .price{font-weight:700;color:var(--accent)}
+
+    footer{margin-top:28px;padding:18px 0;color:var(--muted);font-size:14px}
+
+    /* responsive */
+    @media (max-width:980px){
+      .menu-grid{grid-template-columns:repeat(2,1fr)}
+      .hero{flex-direction:column;align-items:flex-start}
+    }
+    @media (max-width:640px){
+      nav{display:none}
+      .menu-grid{grid-template-columns:1fr}
+      .hero h1{font-size:22px}
+    }
+
+    /* search */
+    .search-row{display:flex;gap:8px;align-items:center;margin-top:12px}
+    .search-row input{flex:1;padding:10px;border-radius:10px;border:1px solid #eee}
+
+    /* small tag */
+    .tag{display:inline-block;padding:6px 8px;border-radius:999px;border:1px solid #eee;font-size:12px;color:var(--muted)}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <!-- Replace with <img src="your-logo.png" alt="Eden Bistro" style="height:48px"> if you have a logo -->
+        <div class="logo">Eden Bistro</div>
+        <div class="tag">Your neighborhood bistro</div>
+      </div>
+
+      <nav>
+        <a href="#menu">Menu</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="left">
+        <h1>Welcome to Eden Bistro</h1>
+        <p>Comfort food made with love — fresh, seasonal, and full of flavor. Browse our menu, see photos, or contact us to reserve a table.</p>
+        <div style="display:flex;gap:10px;margin-top:12px">
+          <a href="#menu" class="btn">See menu</a>
+          <a href="#contact" class="btn" style="background:#fff;color:var(--accent);border:1px solid #eee">Contact / Reserve</a>
+        </div>
+
+        <div class="search-row">
+          <input id="searchInput" placeholder="Search dishes or ingredients..." />
+          <select id="categorySelect" style="padding:10px;border-radius:10px;border:1px solid #eee">
+            <option value="all">All categories</option>
+          </select>
+        </div>
+      </div>
+      <div class="right" style="width:320px">
+        <img src="https://images.unsplash.com/photo-1543352634-59af86f3ec35?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=3b5e7f752a0af0a5e4f8a5c6481b3e76" alt="Eden Bistro food" style="width:100%;height:220px;object-fit:cover;border-radius:12px;box-shadow:0 8px 30px rgba(16,24,40,0.08)">
+      </div>
+    </section>
+
+    <main>
+      <section id="menu" style="margin-top:22px">
+        <h2 style="margin:0 0 8px">Our Menu</h2>
+        <div class="filters" id="filterButtons"></div>
+        <div class="menu-grid" id="menuGrid"></div>
+      </section>
+
+      <section id="gallery" style="margin-top:26px">
+        <h2 style="margin:0 0 12px">Gallery</h2>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+          <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=3f9c6b7a2de9f0b1a4b18b5b6fb0c1a9" style="width:100%;height:120px;object-fit:cover;border-radius:8px">
+          <img src="https://images.unsplash.com/photo-1498654201683-50c3d549c3c8?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=62b3a0f2a1df6a0a6b4261f7f7ba7b3e" style="width:100%;height:120px;object-fit:cover;border-radius:8px">
+          <img src="https://images.unsplash.com/photo-1526318472351-c75fcf070f2a?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=987b2611e32a393e2f0e4b4c88d6b1c3" style="width:100%;height:120px;object-fit:cover;border-radius:8px">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=9b4bfbf5a3f2d9e6b8a3e3c6c1b8d6f0" style="width:100%;height:120px;object-fit:cover;border-radius:8px">
+        </div>
+      </section>
+
+      <section id="contact" style="margin-top:26px">
+        <h2 style="margin:0 0 8px">Contact & Opening Hours</h2>
+        <div style="display:flex;gap:20px;flex-wrap:wrap">
+          <div style="min-width:220px">
+            <strong>Address</strong>
+            <p style="margin:6px 0">123 Eden Street, Musanze</p>
+
+            <strong>Phone</strong>
+            <p style="margin:6px 0"><a href="tel:+250780892156">+250 780 892 156</a></p>
+
+            <strong>Opening Hours</strong>
+            <p style="margin:6px 0">Mon–Sun: 09:00 — 22:00</p>
+          </div>
+
+          <div style="flex:1;min-width:260px">
+            <strong>Reserve / Message</strong>
+            <!-- Note: To accept submissions you need a form endpoint (Formspree, Netlify Forms, or server). This demo uses mailto as example. -->
+            <form action="mailto:your-email@example.com" method="post" enctype="text/plain" style="display:flex;flex-direction:column;gap:8px;max-width:420px">
+              <input placeholder="Your name" style="padding:10px;border-radius:8px;border:1px solid #eee">
+              <input placeholder="Phone or email" style="padding:10px;border-radius:8px;border:1px solid #eee">
+              <textarea placeholder="Message / Reservation details" rows="3" style="padding:10px;border-radius:8px;border:1px solid #eee"></textarea>
+              <button class="btn">Send</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap">
+        <div>
+          <strong>Eden Bistro</strong>
+          <div style="color:var(--muted)">Made with ❤️ — Local & fresh ingredients</div>
+        </div>
+        <div style="color:var(--muted);text-align:right">Follow us: Instagram • Facebook • WhatsApp</div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // ====== Menu data ======
+    // Edit this array to match your real dishes, descriptions, prices and images.
+    const menuItems = [
+      {id:1, category: 'Starters', name: 'Garlic Mushroom Toast', price: 3500, desc: 'Sautéed mushrooms with garlic on toasted sourdough.', img: 'https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=5e1de8bd2b7a41dff9c3d7c1f8b8c2f4'},
+      {id:2, category: 'Starters', name: 'Fresh Garden Salad', price: 3000, desc: 'Local greens, cherry tomatoes and house vinaigrette.', img: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=3f9c6b7a2de9f0b1a4b18b5b6fb0c1a9'},
+      {id:3, category: 'Mains', name: 'Grilled Chicken with Herb Butter', price: 9000, desc: 'Served with roasted potatoes and seasonal veg.', img: 'https://images.unsplash.com/photo-1604908177522-7d3d6f3e9c3d?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=2f4a5e8f6f7c9a0e5a1d2b3c4d5e6f7a'},
+      {id:4, category: 'Mains', name: 'Eden Veggie Pasta', price: 8000, desc: 'Penne, roasted vegetables, parmesan and pesto.', img: 'https://images.unsplash.com/photo-1526318472351-c75fcf070f2a?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=987b2611e32a393e2f0e4b4c88d6b1c3'},
+      {id:5, category: 'Desserts', name: 'Chocolate Lava Cake', price: 3500, desc: 'Rich molten chocolate served with vanilla ice cream.', img: 'https://images.unsplash.com/photo-1559628233-6a3b2f0d4f04?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=ab3c18a0d2f1a9f3b2c4d5e6f7a8b9c0'},
+      {id:6, category: 'Desserts', name: 'Fresh Fruit Platter', price: 2500, desc: 'Seasonal fruits from local markets.', img: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=5254b3d3a44f0c2e8f3a5f1c7a3b2c9d'},
+      {id:7, category: 'Drinks', name: 'Eden Ginger Tea', price: 800, desc: 'Hot ginger tea with honey.', img: 'https://images.unsplash.com/photo-1510627498534-cf7e9002facc?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=8b1a2a3c4d5e6f7b9a1c2d3e4f5b6a7c'},
+      {id:8, category: 'Drinks', name: 'Fresh Passion Fruit Juice', price: 1200, desc: 'Cold-pressed and refreshing.', img: 'https://images.unsplash.com/photo-1542444459-db5f9c7b90d6?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=6c1b2a3d4e5f6b7a8c9d1e2f3a4b5c6d'}
+    ];
+
+    // ====== Render UI ======
+    const menuGrid = document.getElementById('menuGrid');
+    const filterButtons = document.getElementById('filterButtons');
+    const categorySelect = document.getElementById('categorySelect');
+    const searchInput = document.getElementById('searchInput');
+
+    const categories = ['All', ...Array.from(new Set(menuItems.map(i=>i.category)))];
+
+    function createFilterButtons(){
+      filterButtons.innerHTML = '';
+      categories.forEach((c, idx)=>{
+        const btn = document.createElement('button');
+        btn.textContent = c;
+        if(idx===0) btn.classList.add('active');
+        btn.addEventListener('click', ()=>{
+          document.querySelectorAll('.filters button').forEach(b=>b.classList.remove('active'));
+          btn.classList.add('active');
+          renderMenu(c.toLowerCase());
+        });
+        filterButtons.appendChild(btn);
+      });
+
+      // fill the select
+      categories.forEach(c=>{
+        const opt = document.createElement('option');
+        opt.value = c.toLowerCase();
+        opt.textContent = c;
+        categorySelect.appendChild(opt);
+      });
+    }
+
+    function money(n){return 'FRw ' + n.toLocaleString();}
+
+    function renderMenu(category='all', q=''){
+      menuGrid.innerHTML = '';
+      const query = q.trim().toLowerCase();
+      const items = menuItems.filter(it=>{
+        const byCat = (category==='all') || (it.category.toLowerCase()===category);
+        const byQuery = !query || (it.name.toLowerCase().includes(query) || it.desc.toLowerCase().includes(query) || it.category.toLowerCase().includes(query));
+        return byCat && byQuery;
+      });
+
+      if(items.length===0){
+        menuGrid.innerHTML = '<div style="grid-column:1/-1;padding:20px;background:#fff;border-radius:12px;text-align:center">No items found. Try another filter.</div>';
+        return;
+      }
+
+      items.forEach(it=>{
+        const c = document.createElement('div'); c.className='card';
+        c.innerHTML = `
+          <img src="${it.img}" alt="${it.name}">
+          <div class="body">
+            <h3>${it.name}</h3>
+            <p>${it.desc}</p>
+            <div class="price-row">
+              <div style="color:var(--muted);font-size:13px">${it.category}</div>
+              <div class="price">${money(it.price)}</div>
+            </div>
+          </div>
+        `;
+        menuGrid.appendChild(c);
+      });
+    }
+
+    // search + select events
+    searchInput.addEventListener('input', ()=>{
+      const active = document.querySelector('.filters button.active')?.textContent?.toLowerCase() || 'all';
+      renderMenu(active, searchInput.value);
+    });
+
+    categorySelect.addEventListener('change', ()=>{
+      const val = categorySelect.value;
+      // click corresponding filter button
+      const btn = Array.from(document.querySelectorAll('.filters button')).find(b=>b.textContent.toLowerCase()===val);
+      if(btn) btn.click();
+    });
+
+    // init
+    createFilterButtons();
+    renderMenu('all');
+
+  </script>
+</body>
+</html>
